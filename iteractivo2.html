@@ -30,10 +30,7 @@
         }
         /* Styles for learning steps (stepper) */
         .learning-step {
-            /* display: none;  Removed this, now controlled by JS style property */
-        }
-        .learning-step.active {
-            /* display: block; Removed this, now controlled by JS style property */
+            /* display property will be controlled by JavaScript directly */
         }
         .stepper-button {
             @apply bg-purple-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-purple-700 transition-colors duration-200;
@@ -443,9 +440,9 @@
                     totalSteps: totalSteps
                 };
                 showLearningStep(containerId, 1); // Show the first step
-                console.log(`Initialized stepper for ${containerId}. Total steps: ${totalSteps}`);
+                console.log(`[INIT] Initialized stepper for ${containerId}. Total steps: ${totalSteps}`);
             } else {
-                console.error(`Container with ID ${containerId} not found.`);
+                console.error(`[INIT ERROR] Container with ID ${containerId} not found.`);
             }
         }
 
@@ -457,34 +454,34 @@
         function showLearningStep(containerId, stepNum) {
             const container = document.getElementById(containerId);
             if (!container || !learningStepState[containerId]) {
-                console.error(`showLearningStep: Container or state not found for ${containerId}`);
+                console.error(`[SHOW ERROR] showLearningStep: Container or state not found for ${containerId}`);
                 return;
             }
 
-            console.log(`[${containerId}] showLearningStep called for step ${stepNum}. Current state:`, learningStepState[containerId]);
+            console.log(`[SHOW] Called for ${containerId}, step ${stepNum}. Current state:`, learningStepState[containerId]);
 
             // Update current step in state and data attribute
             learningStepState[containerId].currentStep = stepNum;
             container.dataset.activeStep = stepNum;
 
             // Hide all steps in this container explicitly setting display to 'none'
+            const stepIdPrefix = containerId.replace('-learning-container', '');
             container.querySelectorAll('.learning-step').forEach(stepDiv => {
                 stepDiv.classList.remove('active'); // Remove active class as well for consistency
                 stepDiv.style.display = 'none'; // Explicitly hide
-                console.log(`[${containerId}] Hiding step: ${stepDiv.id}`);
+                // console.log(`[SHOW] Hiding step: ${stepDiv.id}`); // Too verbose
             });
 
-            // Determine the correct ID prefix for steps based on the container ID
-            const stepIdPrefix = containerId.replace('-learning-container', '');
+            // Show the target step
             const targetStepId = `${stepIdPrefix}-step-${stepNum}`;
             const targetStepDiv = document.getElementById(targetStepId);
 
             if (targetStepDiv) {
                 targetStepDiv.classList.add('active');
                 targetStepDiv.style.display = 'block'; // Explicitly show
-                console.log(`[${containerId}] Showing step: ${targetStepId}`);
+                console.log(`[SHOW] Showing step: ${targetStepId}`);
             } else {
-                console.error(`[${containerId}] showLearningStep: Target step div not found: ${targetStepId}`);
+                console.error(`[SHOW ERROR] Target step div not found: ${targetStepId} for container ${containerId}`);
                 return; // Exit if the target div isn't found
             }
 
@@ -492,22 +489,22 @@
             const prevButton = container.querySelector('.stepper-button:nth-of-type(1)');
             const nextButton = container.querySelector('.stepper-button:nth-of-type(2)');
 
-            console.log(`[${containerId}] Current Step: ${learningStepState[containerId].currentStep}, Total Steps: ${learningStepState[containerId].totalSteps}`);
+            console.log(`[BUTTONS] Current Step: ${learningStepState[containerId].currentStep}, Total Steps: ${learningStepState[containerId].totalSteps}`);
 
             if (prevButton) {
                 if (learningStepState[containerId].currentStep === 1) {
                     prevButton.disabled = true;
                     prevButton.classList.add('bg-gray-400', 'cursor-not-allowed');
                     prevButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
-                    console.log(`[${containerId}] Disabled Prev button.`);
+                    console.log(`[BUTTONS] Disabled Prev button for ${containerId}.`);
                 } else {
                     prevButton.disabled = false;
                     prevButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     prevButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
-                    console.log(`[${containerId}] Enabled Prev button.`);
+                    console.log(`[BUTTONS] Enabled Prev button for ${containerId}.`);
                 }
             } else {
-                console.warn(`[${containerId}] Prev button not found.`);
+                console.warn(`[BUTTONS WARN] Prev button not found for ${containerId}.`);
             }
 
             if (nextButton) {
@@ -515,15 +512,15 @@
                     nextButton.disabled = true;
                     nextButton.classList.add('bg-gray-400', 'cursor-not-allowed');
                     nextButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
-                    console.log(`[${containerId}] Disabled Next button.`);
+                    console.log(`[BUTTONS] Disabled Next button for ${containerId}.`);
                 } else {
                     nextButton.disabled = false;
                     nextButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     nextButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
-                    console.log(`[${containerId}] Enabled Next button.`);
+                    console.log(`[BUTTONS] Enabled Next button for ${containerId}.`);
                 }
             } else {
-                console.warn(`[${containerId}] Next button not found.`);
+                console.warn(`[BUTTONS WARN] Next button not found for ${containerId}.`);
             }
         }
 
@@ -532,11 +529,21 @@
          * @param {string} containerId - The ID of the learning container.
          */
         function nextLearningStep(containerId) {
+            console.log(`[CLICK] nextLearningStep called for ${containerId}.`);
+            if (!learningStepState[containerId]) {
+                console.error(`[CLICK ERROR] State for ${containerId} is undefined in nextLearningStep. Re-initializing.`);
+                initializeLearningStepper(containerId); // Attempt to re-initialize if state is lost
+                if (!learningStepState[containerId]) { // If still undefined after re-init, something is fundamentally wrong
+                    console.error(`[CRITICAL ERROR] Failed to re-initialize state for ${containerId}. Cannot proceed.`);
+                    return;
+                }
+            }
+
             if (learningStepState[containerId].currentStep < learningStepState[containerId].totalSteps) {
-                console.log(`nextLearningStep: Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep + 1} for ${containerId}`); // Debugging line
+                console.log(`[MOVE] Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep + 1} for ${containerId}`);
                 showLearningStep(containerId, learningStepState[containerId].currentStep + 1);
             } else {
-                console.log(`nextLearningStep: Already at max step for ${containerId}`); // Debugging line
+                console.log(`[MOVE] Already at max step for ${containerId}`);
             }
         }
 
@@ -545,11 +552,21 @@
          * @param {string} containerId - The ID of the learning container.
          */
         function prevLearningStep(containerId) {
+            console.log(`[CLICK] prevLearningStep called for ${containerId}.`);
+            if (!learningStepState[containerId]) {
+                console.error(`[CLICK ERROR] State for ${containerId} is undefined in prevLearningStep. Re-initializing.`);
+                initializeLearningStepper(containerId);
+                if (!learningStepState[containerId]) {
+                    console.error(`[CRITICAL ERROR] Failed to re-initialize state for ${containerId}. Cannot proceed.`);
+                    return;
+                }
+            }
+
             if (learningStepState[containerId].currentStep > 1) {
-                console.log(`prevLearningStep: Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep - 1} for ${containerId}`); // Debugging line
+                console.log(`[MOVE] Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep - 1} for ${containerId}`);
                 showLearningStep(containerId, learningStepState[containerId].currentStep - 1);
             } else {
-                console.log(`prevLearningStep: Already at min step for ${containerId}`); // Debugging line
+                console.log(`[MOVE] Already at min step for ${containerId}`);
             }
         }
 
@@ -558,7 +575,7 @@
          * @param {string} containerId - The ID of the learning container.
          */
         function resetLearningStepper(containerId) {
-            console.log(`resetLearningStepper: Resetting ${containerId}`); // Debugging line
+            console.log(`[RESET] Resetting ${containerId}`);
             showLearningStep(containerId, 1);
         }
 
@@ -594,14 +611,14 @@
             document.getElementById('reveal-next-comparison').classList.add('bg-purple-600', 'hover:bg-purple-700');
         }
 
-        // Initialize all steppers and table on window load
-        window.onload = function() {
-            console.log("Window loaded. Initializing steppers.");
+        // Initialize all steppers and table on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOMContentLoaded event fired. Initializing steppers and table.");
             initializeLearningStepper('estructura-learning-container');
             initializeLearningStepper('aspectos-learning-container');
             initializeLearningStepper('otras-formas-learning-container');
             resetComparisonTable(); // Ensure comparison table is hidden on load
-        };
+        });
     </script>
 </body>
 </html>
