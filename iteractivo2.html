@@ -439,10 +439,13 @@
             if (container) {
                 const totalSteps = parseInt(container.dataset.totalSteps);
                 learningStepState[containerId] = {
-                    currentStep: 1,
+                    currentStep: 1, // Initialize to step 1
                     totalSteps: totalSteps
                 };
-                showLearningStep(containerId, 1);
+                showLearningStep(containerId, 1); // Show the first step
+                console.log(`Initialized stepper for ${containerId}. Total steps: ${totalSteps}`);
+            } else {
+                console.error(`Container with ID ${containerId} not found.`);
             }
         }
 
@@ -453,21 +456,35 @@
          */
         function showLearningStep(containerId, stepNum) {
             const container = document.getElementById(containerId);
-            if (!container || !learningStepState[containerId]) return;
+            if (!container || !learningStepState[containerId]) {
+                console.error(`showLearningStep: Container or state not found for ${containerId}`);
+                return;
+            }
+
+            console.log(`showLearningStep called for ${containerId}, step ${stepNum}`);
 
             // Update current step in state and data attribute
             learningStepState[containerId].currentStep = stepNum;
-            container.dataset.activeStep = stepNum; 
+            container.dataset.activeStep = stepNum;
 
             // Hide all steps in this container
             container.querySelectorAll('.learning-step').forEach(stepDiv => {
                 stepDiv.classList.remove('active');
+                // console.log(`Removed 'active' from ${stepDiv.id}`); // Debugging line
             });
 
-            // Show the target step
-            const targetStepDiv = document.getElementById(`${containerId.split('-learning-container')[0]}-step-${stepNum}`);
+            // Determine the correct ID prefix for steps based on the container ID
+            // Example: 'estructura-learning-container' -> 'estructura'
+            const stepIdPrefix = containerId.replace('-learning-container', '');
+            const targetStepId = `${stepIdPrefix}-step-${stepNum}`;
+            const targetStepDiv = document.getElementById(targetStepId);
+
             if (targetStepDiv) {
                 targetStepDiv.classList.add('active');
+                console.log(`Added 'active' to ${targetStepId}`); // Debugging line
+            } else {
+                console.error(`showLearningStep: Target step div not found: ${targetStepId}`);
+                return; // Exit if the target div isn't found
             }
 
             // Update button states
@@ -484,6 +501,8 @@
                     prevButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     prevButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
                 }
+            } else {
+                console.warn(`Prev button not found for ${containerId}`); // Debugging line
             }
 
             if (nextButton) {
@@ -496,6 +515,8 @@
                     nextButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     nextButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
                 }
+            } else {
+                console.warn(`Next button not found for ${containerId}`); // Debugging line
             }
         }
 
@@ -505,7 +526,10 @@
          */
         function nextLearningStep(containerId) {
             if (learningStepState[containerId].currentStep < learningStepState[containerId].totalSteps) {
+                console.log(`nextLearningStep: Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep + 1} for ${containerId}`); // Debugging line
                 showLearningStep(containerId, learningStepState[containerId].currentStep + 1);
+            } else {
+                console.log(`nextLearningStep: Already at max step for ${containerId}`); // Debugging line
             }
         }
 
@@ -515,7 +539,10 @@
          */
         function prevLearningStep(containerId) {
             if (learningStepState[containerId].currentStep > 1) {
+                console.log(`prevLearningStep: Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep - 1} for ${containerId}`); // Debugging line
                 showLearningStep(containerId, learningStepState[containerId].currentStep - 1);
+            } else {
+                console.log(`prevLearningStep: Already at min step for ${containerId}`); // Debugging line
             }
         }
 
@@ -524,6 +551,7 @@
          * @param {string} containerId - The ID of the learning container.
          */
         function resetLearningStepper(containerId) {
+            console.log(`resetLearningStepper: Resetting ${containerId}`); // Debugging line
             showLearningStep(containerId, 1);
         }
 
@@ -569,3 +597,4 @@
     </script>
 </body>
 </html>
+
