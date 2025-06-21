@@ -455,6 +455,10 @@
             const container = document.getElementById(containerId);
             if (!container || !learningStepState[containerId]) return;
 
+            // Update current step in state and data attribute
+            learningStepState[containerId].currentStep = stepNum;
+            container.dataset.activeStep = stepNum; 
+
             // Hide all steps in this container
             container.querySelectorAll('.learning-step').forEach(stepDiv => {
                 stepDiv.classList.remove('active');
@@ -464,7 +468,6 @@
             const targetStepDiv = document.getElementById(`${containerId.split('-learning-container')[0]}-step-${stepNum}`);
             if (targetStepDiv) {
                 targetStepDiv.classList.add('active');
-                learningStepState[containerId].currentStep = stepNum;
             }
 
             // Update button states
@@ -566,4 +569,3 @@
     </script>
 </body>
 </html>
-
