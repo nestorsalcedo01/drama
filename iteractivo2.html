@@ -30,10 +30,10 @@
         }
         /* Styles for learning steps (stepper) */
         .learning-step {
-            display: none;
+            /* display: none;  Removed this, now controlled by JS style property */
         }
         .learning-step.active {
-            display: block;
+            /* display: block; Removed this, now controlled by JS style property */
         }
         .stepper-button {
             @apply bg-purple-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-purple-700 transition-colors duration-200;
@@ -461,29 +461,30 @@
                 return;
             }
 
-            console.log(`showLearningStep called for ${containerId}, step ${stepNum}`);
+            console.log(`[${containerId}] showLearningStep called for step ${stepNum}. Current state:`, learningStepState[containerId]);
 
             // Update current step in state and data attribute
             learningStepState[containerId].currentStep = stepNum;
             container.dataset.activeStep = stepNum;
 
-            // Hide all steps in this container
+            // Hide all steps in this container explicitly setting display to 'none'
             container.querySelectorAll('.learning-step').forEach(stepDiv => {
-                stepDiv.classList.remove('active');
-                // console.log(`Removed 'active' from ${stepDiv.id}`); // Debugging line
+                stepDiv.classList.remove('active'); // Remove active class as well for consistency
+                stepDiv.style.display = 'none'; // Explicitly hide
+                console.log(`[${containerId}] Hiding step: ${stepDiv.id}`);
             });
 
             // Determine the correct ID prefix for steps based on the container ID
-            // Example: 'estructura-learning-container' -> 'estructura'
             const stepIdPrefix = containerId.replace('-learning-container', '');
             const targetStepId = `${stepIdPrefix}-step-${stepNum}`;
             const targetStepDiv = document.getElementById(targetStepId);
 
             if (targetStepDiv) {
                 targetStepDiv.classList.add('active');
-                console.log(`Added 'active' to ${targetStepId}`); // Debugging line
+                targetStepDiv.style.display = 'block'; // Explicitly show
+                console.log(`[${containerId}] Showing step: ${targetStepId}`);
             } else {
-                console.error(`showLearningStep: Target step div not found: ${targetStepId}`);
+                console.error(`[${containerId}] showLearningStep: Target step div not found: ${targetStepId}`);
                 return; // Exit if the target div isn't found
             }
 
@@ -491,18 +492,22 @@
             const prevButton = container.querySelector('.stepper-button:nth-of-type(1)');
             const nextButton = container.querySelector('.stepper-button:nth-of-type(2)');
 
+            console.log(`[${containerId}] Current Step: ${learningStepState[containerId].currentStep}, Total Steps: ${learningStepState[containerId].totalSteps}`);
+
             if (prevButton) {
                 if (learningStepState[containerId].currentStep === 1) {
                     prevButton.disabled = true;
                     prevButton.classList.add('bg-gray-400', 'cursor-not-allowed');
                     prevButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                    console.log(`[${containerId}] Disabled Prev button.`);
                 } else {
                     prevButton.disabled = false;
                     prevButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     prevButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                    console.log(`[${containerId}] Enabled Prev button.`);
                 }
             } else {
-                console.warn(`Prev button not found for ${containerId}`); // Debugging line
+                console.warn(`[${containerId}] Prev button not found.`);
             }
 
             if (nextButton) {
@@ -510,13 +515,15 @@
                     nextButton.disabled = true;
                     nextButton.classList.add('bg-gray-400', 'cursor-not-allowed');
                     nextButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                    console.log(`[${containerId}] Disabled Next button.`);
                 } else {
                     nextButton.disabled = false;
                     nextButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                     nextButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                    console.log(`[${containerId}] Enabled Next button.`);
                 }
             } else {
-                console.warn(`Next button not found for ${containerId}`); // Debugging line
+                console.warn(`[${containerId}] Next button not found.`);
             }
         }
 
@@ -589,6 +596,7 @@
 
         // Initialize all steppers and table on window load
         window.onload = function() {
+            console.log("Window loaded. Initializing steppers.");
             initializeLearningStepper('estructura-learning-container');
             initializeLearningStepper('aspectos-learning-container');
             initializeLearningStepper('otras-formas-learning-container');
@@ -597,4 +605,3 @@
     </script>
 </body>
 </html>
-
