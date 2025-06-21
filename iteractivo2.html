@@ -175,9 +175,9 @@
                 </div>
 
                 <div class="flex justify-between gap-4 mt-6">
-                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStep('estructura')">Anterior</button>
-                    <button class="stepper-button" onclick="nextLearningStep('estructura')">Continuar</button>
-                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepper('estructura')">Reiniciar</button>
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStepFromButton(this)">Anterior</button>
+                    <button class="stepper-button" onclick="nextLearningStepFromButton(this)">Continuar</button>
+                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepperFromButton(this)">Reiniciar</button>
                 </div>
             </div>
         </section>
@@ -269,9 +269,9 @@
                 </div>
 
                 <div class="flex justify-between gap-4 mt-6">
-                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStep('aspectos')">Anterior</button>
-                    <button class="stepper-button" onclick="nextLearningStep('aspectos')">Continuar</button>
-                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepper('aspectos')">Reiniciar</button>
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStepFromButton(this)">Anterior</button>
+                    <button class="stepper-button" onclick="nextLearningStepFromButton(this)">Continuar</button>
+                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepperFromButton(this)">Reiniciar</button>
                 </div>
             </div>
         </section>
@@ -383,9 +383,9 @@
                 </div>
 
                 <div class="flex justify-between gap-4 mt-6">
-                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStep('otras-formas')">Anterior</button>
-                    <button class="stepper-button" onclick="nextLearningStep('otras-formas')">Continuar</button>
-                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepper('otras-formas')">Reiniciar</button>
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStepFromButton(this)">Anterior</button>
+                    <button class="stepper-button" onclick="nextLearningStepFromButton(this)">Continuar</button>
+                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepperFromButton(this)">Reiniciar</button>
                 </div>
             </div>
         </section>
@@ -426,6 +426,24 @@
         // --- Generic Stepper Logic for Learning Sections ---
         // Stores the current step and total steps for each learning container
         const learningStepState = {};
+
+        /**
+         * Finds the closest parent learning container for a given element.
+         * @param {HTMLElement} element - The starting element (e.g., a button).
+         * @returns {HTMLElement|null} The learning container element, or null if not found.
+         */
+        function findLearningContainer(element) {
+            // Find the closest parent with an ID ending in '-learning-container'
+            let current = element;
+            while (current) {
+                if (current.id && current.id.endsWith('-learning-container')) {
+                    return current;
+                }
+                current = current.parentElement;
+            }
+            return null;
+        }
+
 
         /**
          * Initializes a learning stepper container.
@@ -525,20 +543,72 @@
         }
 
         /**
-         * Advances to the next step in a learning container.
+         * Generic function to handle click for next step, deriving containerId from button.
+         * @param {HTMLElement} buttonElement - The button element that was clicked.
+         */
+        function nextLearningStepFromButton(buttonElement) {
+            const container = findLearningContainer(buttonElement);
+            if (container) {
+                const containerId = container.id;
+                console.log(`[CLICK] nextLearningStepFromButton called. Container ID: ${containerId}`);
+                if (!learningStepState[containerId]) {
+                    console.error(`[CLICK ERROR] State for ${containerId} is undefined. Attempting to re-initialize.`);
+                    initializeLearningStepper(containerId);
+                    if (!learningStepState[containerId]) {
+                        console.error(`[CRITICAL ERROR] Failed to re-initialize state for ${containerId}. Cannot proceed.`);
+                        return;
+                    }
+                }
+                nextLearningStep(containerId);
+            } else {
+                console.error("nextLearningStepFromButton: Parent learning container not found for the clicked button.");
+            }
+        }
+
+        /**
+         * Generic function to handle click for previous step, deriving containerId from button.
+         * @param {HTMLElement} buttonElement - The button element that was clicked.
+         */
+        function prevLearningStepFromButton(buttonElement) {
+            const container = findLearningContainer(buttonElement);
+            if (container) {
+                const containerId = container.id;
+                console.log(`[CLICK] prevLearningStepFromButton called. Container ID: ${containerId}`);
+                if (!learningStepState[containerId]) {
+                    console.error(`[CLICK ERROR] State for ${containerId} is undefined. Attempting to re-initialize.`);
+                    initializeLearningStepper(containerId);
+                    if (!learningStepState[containerId]) {
+                        console.error(`[CRITICAL ERROR] Failed to re-initialize state for ${containerId}. Cannot proceed.`);
+                        return;
+                    }
+                }
+                prevLearningStep(containerId);
+            } else {
+                console.error("prevLearningStepFromButton: Parent learning container not found for the clicked button.");
+            }
+        }
+
+        /**
+         * Generic function to handle click for resetting stepper, deriving containerId from button.
+         * @param {HTMLElement} buttonElement - The button element that was clicked.
+         */
+        function resetLearningStepperFromButton(buttonElement) {
+            const container = findLearningContainer(buttonElement);
+            if (container) {
+                const containerId = container.id;
+                console.log(`[CLICK] resetLearningStepperFromButton called. Container ID: ${containerId}`);
+                resetLearningStepper(containerId);
+            } else {
+                console.error("resetLearningStepperFromButton: Parent learning container not found for the clicked button.");
+            }
+        }
+
+
+        /**
+         * Core logic to advance to the next step.
          * @param {string} containerId - The ID of the learning container.
          */
         function nextLearningStep(containerId) {
-            console.log(`[CLICK] nextLearningStep called for ${containerId}.`);
-            if (!learningStepState[containerId]) {
-                console.error(`[CLICK ERROR] State for ${containerId} is undefined in nextLearningStep. Re-initializing.`);
-                initializeLearningStepper(containerId); // Attempt to re-initialize if state is lost
-                if (!learningStepState[containerId]) { // If still undefined after re-init, something is fundamentally wrong
-                    console.error(`[CRITICAL ERROR] Failed to re-initialize state for ${containerId}. Cannot proceed.`);
-                    return;
-                }
-            }
-
             if (learningStepState[containerId].currentStep < learningStepState[containerId].totalSteps) {
                 console.log(`[MOVE] Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep + 1} for ${containerId}`);
                 showLearningStep(containerId, learningStepState[containerId].currentStep + 1);
@@ -548,20 +618,10 @@
         }
 
         /**
-         * Goes back to the previous step in a learning container.
+         * Core logic to go back to the previous step.
          * @param {string} containerId - The ID of the learning container.
          */
         function prevLearningStep(containerId) {
-            console.log(`[CLICK] prevLearningStep called for ${containerId}.`);
-            if (!learningStepState[containerId]) {
-                console.error(`[CLICK ERROR] State for ${containerId} is undefined in prevLearningStep. Re-initializing.`);
-                initializeLearningStepper(containerId);
-                if (!learningStepState[containerId]) {
-                    console.error(`[CRITICAL ERROR] Failed to re-initialize state for ${containerId}. Cannot proceed.`);
-                    return;
-                }
-            }
-
             if (learningStepState[containerId].currentStep > 1) {
                 console.log(`[MOVE] Moving from ${learningStepState[containerId].currentStep} to ${learningStepState[containerId].currentStep - 1} for ${containerId}`);
                 showLearningStep(containerId, learningStepState[containerId].currentStep - 1);
@@ -571,7 +631,7 @@
         }
 
         /**
-         * Resets a learning stepper container to its first step.
+         * Core logic to reset the stepper.
          * @param {string} containerId - The ID of the learning container.
          */
         function resetLearningStepper(containerId) {
