@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende el Género Dramático</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .section-title {
+            @apply text-3xl md:text-4xl font-bold text-gray-800 mb-6 border-b-4 border-purple-500 pb-2;
+        }
+        .card-flash {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            height: 100%; /* Ensure cards in a grid have equal height */
+        }
+        .card-flash:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        .accordion-header {
+            @apply flex justify-between items-center w-full p-4 text-left font-semibold text-lg bg-white rounded-lg shadow-sm hover:bg-gray-50 transition-colors duration-200 ease-in-out;
+        }
+        .accordion-content {
+            @apply px-4 pb-4 bg-white rounded-b-lg shadow-sm transition-all duration-300 ease-in-out overflow-hidden;
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .accordion-content.open {
+            max-height: 500px; /* Adjust as needed */
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl my-8">
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-purple-700 mb-4">Aprende el Género Dramático</h1>
+            <p class="text-lg text-gray-600">Explora los conceptos clave del teatro de forma interactiva.</p>
+        </header>
+
+        <!-- Sección 1: Conceptos Clave (Flashcards Interactivas) -->
+        <section id="conceptos-clave" class="mb-12">
+            <h2 class="section-title">Conceptos Clave</h2>
+            <p class="text-gray-700 mb-6">Haz clic en cada tarjeta para revelar la palabra o el término clave.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Flashcard 1: Género Dramático -->
+                <div class="card-flash p-6 flex flex-col justify-between" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Representa episodios o conflictos de la vida humana mediante el diálogo de personajes, destinado a ser representado públicamente.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Género Dramático</div>
+                </div>
+
+                <!-- Flashcard 2: Drama -->
+                <div class="card-flash p-6 flex flex-col justify-between" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Palabra griega que significa "hacer", asociada a la idea de acción y utilizada para nombrar toda creación literaria teatral.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Drama</div>
+                </div>
+
+                <!-- Flashcard 3: Conflicto -->
+                <div class="card-flash p-6 flex flex-col justify-between" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Origen fundamental de una obra dramática, refiriéndose a las fuerzas contrapuestas que impulsan el desarrollo argumental.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Conflicto</div>
+                </div>
+
+                <!-- Flashcard 4: Dramaturgo -->
+                <div class="card-flash p-6 flex flex-col justify-between" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Artista que concibe y desarrolla un acontecimiento teatral dentro de un espacio y tiempo determinados.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Dramaturgo</div>
+                </div>
+
+                <!-- Flashcard 5: Acotaciones -->
+                <div class="card-flash p-6 flex flex-col justify-between" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Información para la representación teatral sobre la acción (decorados, iluminación, sonidos) y los personajes (vestuario, movimientos, gestos).</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Acotaciones</div>
+                </div>
+
+                <!-- Flashcard 6: Escenografía -->
+                <div class="card-flash p-6 flex flex-col justify-between" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Elementos esenciales de la representación teatral que sitúan la historia en un tiempo y espacio concretos, incluyendo decorados, vestuario, iluminación y sonido.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Escenografía</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Estructura de la Obra Dramática (Acordeón) -->
+        <section id="estructura-obra" class="mb-12">
+            <h2 class="section-title">Estructura de la Obra Dramática</h2>
+            <div class="space-y-4">
+                <!-- Accordion Item 1: Presentación del Conflicto -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>1. Presentación del Conflicto</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <p class="mb-2">Es el origen de la obra, donde aparecen las fuerzas contrapuestas. Sin conflicto, no hay drama. Puede manifestarse explícitamente o estar implícito.</p>
+                            <h4 class="font-semibold text-gray-800 mt-3 mb-2">Etapas:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Exposición o situación del protagonista.</li>
+                                <li>Propósito del protagonista.</li>
+                                <li>Presentación del obstáculo o materia del conflicto.</li>
+                                <li>Choque de las dos fuerzas en pugna.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 2: Desarrollo de la Acción Dramática -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>2. Desarrollo de la Acción Dramática</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <p>Aquí el conflicto avanza hasta el punto de mayor tensión (el nudo). Los personajes intentan superar la fuerza opuesta, lo que da dimensión artística a la obra.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 3: Desenlace de la Acción Dramática -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>3. Desenlace de la Acción Dramática</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <p>Momento en que se resuelve el problema. Implica la eliminación del obstáculo o la desaparición del protagonista. La fuerza opuesta puede ser externa o interna.</p>
+                            <h4 class="font-semibold text-gray-800 mt-3 mb-2">Ejemplos de conflictos:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Hombre con el destino ("Edipo Rey")</li>
+                                <li>Instinto con el ambiente ("Hamlet")</li>
+                                <li>Entendimiento con el ambiente ("Madre Coraje")</li>
+                                <li>Libre albedrío con el ambiente ("Casa de Muñecas")</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Aspectos Formales y Composición (Acordeón) -->
+        <section id="aspectos-formales" class="mb-12">
+            <h2 class="section-title">Aspectos Formales y Composición</h2>
+            <div class="space-y-4">
+                <!-- Accordion Item 1: Texto Principal -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Texto Principal</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <p class="mb-2">Es el contenido de la obra, dividido en:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>**Actos:** Unidad temporal y narrativa, marcada por la subida y bajada del telón.</li>
+                                <li>**Cuadros:** Parte marcada por el cambio total o parcial del decorado.</li>
+                                <li>**Escenas:** Parte determinada por la entrada o salida de los actores.</li>
+                            </ul>
+                            <h4 class="font-semibold text-gray-800 mt-3 mb-2">Formas de Expresión:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>**Diálogo:** Conversación entre dos personajes.</li>
+                                <li>**Monólogo (Soliloquio):** Un solo personaje hablando.</li>
+                                <li>**Aparte:** Personajes dicen algo que los demás fingen no escuchar.</li>
+                                <li>**Off:** Cuando se habla fuera de escena.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 2: Texto Secundario o Acotaciones -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Texto Secundario o Acotaciones</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <p class="mb-2">Aporta información crucial para la representación teatral:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>**Sobre la acción:** Datos del lugar, época, mobiliario, iluminación (hora del día, espacio), sonidos (efectos).</li>
+                                <li>**Sobre los personajes:** Vestuario, movimientos, gestos, tono de voz, intencionalidad expresiva.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 3: La Representación Teatral -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>La Representación Teatral</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <p class="mb-2">El fin primordial de un texto dramático es su representación. Los **actores** encarnan a los personajes, y el **director** los organiza y transforma el texto en espectáculo.</p>
+                            <p class="mb-2">La **escenografía** es esencial, situando la historia en tiempo y espacio.</p>
+                            <h4 class="font-semibold text-gray-800 mt-3 mb-2">Campos de la Escenografía:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>**Decorados:** Elementos para ambientar el escenario.</li>
+                                <li>**Vestuario:** Prendas y ropas.</li>
+                                <li>**Iluminación:** Luces para efectos (día, noche, tormentas).</li>
+                                <li>**Sonido:** Música y efectos sonoros (ruidos).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 4: Nivel o Categorías de los Personajes -->
+                <div class="accordion-item rounded-lg shadow-md">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Nivel o Categorías de los Personajes</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 text-gray-700">
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>**Principales:** Recae el peso de la acción.
+                                    <ul class="list-circle list-inside ml-5">
+                                        <li>**Protagonista:** Actúa según la tesis del autor.</li>
+                                        <li>**Antagonista:** Actúa de forma contraria al protagonista.</li>
+                                    </ul>
+                                </li>
+                                <li>**Secundarios:** Ayudan a los principales.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Comparación: Tragedia vs. Comedia -->
+        <section id="comparacion" class="mb-12">
+            <h2 class="section-title">Comparación: Tragedia vs. Comedia</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table class="min-w-full bg-white border-collapse">
+                    <thead>
+                        <tr class="bg-purple-600 text-white">
+                            <th class="py-3 px-4 text-left border-b border-purple-700">Característica</th>
+                            <th class="py-3 px-4 text-left border-b border-purple-700">Tragedia</th>
+                            <th class="py-3 px-4 text-left border-b border-purple-700">Comedia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="py-3 px-4 font-semibold">Origen</td>
+                            <td class="py-3 px-4">Antigüedad (Grecia), siglo V a.C.</td>
+                            <td class="py-3 px-4">Grecia, mitad del siglo V a.C.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="py-3 px-4 font-semibold">Desenlace</td>
+                            <td class="py-3 px-4">Fatal, triste o con la muerte del protagonista.</td>
+                            <td class="py-3 px-4">Feliz y optimista (ascenso en el estado de los personajes).</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="py-3 px-4 font-semibold">Conflicto</td>
+                            <td class="py-3 px-4">Ruptura del orden del mundo, destino inexorable.</td>
+                            <td class="py-3 px-4">Aspectos risibles de la vida cotidiana.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="py-3 px-4 font-semibold">Personajes</td>
+                            <td class="py-3 px-4">Sufren, piedad; luego reconocimiento del mal.</td>
+                            <td class="py-3 px-4">De condición inferior, "vulgares", típicos e identificables.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="py-3 px-4 font-semibold">Finalidad</td>
+                            <td class="py-3 px-4">Suscitar compasión y temor, purgar emociones.</td>
+                            <td class="py-3 px-4">Provocar la risa del espectador.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="py-3 px-4 font-semibold">Autores destacados</td>
+                            <td class="py-3 px-4">Esquilo, Sófocles, Eurípides.</td>
+                            <td class="py-3 px-4">Aristófanes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección 5: Otras Formas Dramáticas (Lista) -->
+        <section id="otras-formas" class="mb-12">
+            <h2 class="section-title">Otras Formas Dramáticas</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Drama -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-purple-200">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">El Drama</h3>
+                    <p class="text-gray-700 mb-2">No tiene un carácter definido; combina indistintamente aspectos trágicos y cómicos. Pretende representar la vida tal cual es, tratando asuntos de forma menos rígida.</p>
+                    <p class="text-gray-700">Primeros datos: Siglo VI a.C. Primera obra crítica: "Poética" (330 a.C.) de Aristóteles. Esquilo comenzó a representar historias de héroes.</p>
+                </div>
+                <!-- Tragicomedia -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-purple-200">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Tragicomedia</h3>
+                    <p class="text-gray-700 mb-2">Obra que participa de ambos géneros, trágico y cómico. Primer autor en usar la denominación: Plauto (ej. "Anfitrión").</p>
+                    <p class="text-gray-700">Gran relieve en siglos XVIII y XIX. Se caracteriza por la indiferenciación de clases sociales de los personajes y el uso de distintos lenguajes.</p>
+                </div>
+                <!-- Auto Sacramental -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-purple-200">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Auto Sacramental</h3>
+                    <p class="text-gray-700 mb-2">Representaciones de episodios bíblicos, misterios religiosos o conflictos morales/teológicos. Inicialmente en templos.</p>
+                    <p class="text-gray-700">El más antiguo: "Auto de los Reyes Magos". Autores del Siglo de Oro español (Calderón de la Barca, Tirso de Molina, Lope de Vega) los escribieron para consolidar la Contrarreforma.</p>
+                </div>
+                <!-- Formas Menores -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-purple-200">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Formas Menores</h3>
+                    <p class="text-gray-700 mb-2">Incluyen: Entremés, Monólogo, Farsa, Vodevil, Zarzuela, Sainete, Loa.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 mt-12 pt-6 border-t border-gray-200">
+            <p>&copy; 2025 Género Dramático. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * Toggles the visibility of the revealed text in a flashcard.
+         * @param {HTMLElement} cardElement - The flashcard element clicked.
+         */
+        function toggleReveal(cardElement) {
+            const revealedText = cardElement.querySelector('.revealed-text');
+            if (revealedText) {
+                revealedText.classList.toggle('hidden');
+                // Optional: add a class to slightly animate the reveal
+                // cardElement.classList.toggle('bg-purple-50');
+            }
+        }
+
+        /**
+         * Toggles the accordion content's visibility.
+         * @param {HTMLElement} headerButton - The button element that was clicked.
+         */
+        function toggleAccordion(headerButton) {
+            const item = headerButton.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const icon = headerButton.querySelector('svg');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                content.style.maxHeight = null;
+                icon.classList.remove('rotate-180');
+            } else {
+                // Close all other open accordions
+                document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                    openContent.classList.remove('open');
+                    openContent.style.maxHeight = null;
+                    openContent.previousElementSibling.querySelector('svg').classList.remove('rotate-180');
+                });
+
+                content.classList.add('open');
+                content.style.maxHeight = content.scrollHeight + "px"; // Set max-height to scrollHeight for smooth transition
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        // Adjust max-height on window resize for accordions
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.accordion-content.open').forEach(content => {
+                content.style.maxHeight = content.scrollHeight + "px";
+            });
+        });
+
+        // Initialize any content that might need dynamic height
+        window.onload = function() {
+            // No specific onload animation or complex logic needed for this simple app.
+            // Accordion height adjustment will happen on toggle or resize.
+        };
+
+    </script>
+</body>
+</html>
