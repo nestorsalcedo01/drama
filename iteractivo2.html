@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende el Género Dramático</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .section-title {
+            @apply text-3xl md:text-4xl font-bold text-gray-800 mb-6 border-b-4 border-purple-500 pb-2;
+        }
+        .card-flash {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            height: 100%; /* Ensure cards in a grid have equal height */
+        }
+        .card-flash:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        /* Styles for learning steps (stepper) */
+        .learning-step {
+            display: none;
+        }
+        .learning-step.active {
+            display: block;
+        }
+        .stepper-button {
+            @apply bg-purple-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-purple-700 transition-colors duration-200;
+        }
+        .stepper-button:disabled {
+            @apply bg-gray-400 cursor-not-allowed;
+        }
+        .reveal-button {
+            @apply bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm;
+        }
+        /* Styles for progressive table reveal */
+        .hidden-col-comp {
+            display: none;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl my-8">
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-purple-700 mb-4">Aprende el Género Dramático</h1>
+            <p class="text-lg text-gray-600">Explora los conceptos clave del teatro de forma interactiva.</p>
+        </header>
+
+        <!-- Sección 1: Conceptos Clave (Flashcards Interactivas con botón global) -->
+        <section id="conceptos-clave" class="mb-12">
+            <h2 class="section-title">Conceptos Clave</h2>
+            <p class="text-gray-700 mb-6">Haz clic en cada tarjeta para revelar la palabra o el término clave. Usa los botones para una revelación global.</p>
+            <div class="flex justify-center gap-4 mb-6">
+                <button class="reveal-button bg-green-500 hover:bg-green-600" onclick="toggleAllFlashcards(false)">Ocultar Todas</button>
+                <button class="reveal-button bg-red-500 hover:bg-red-600" onclick="toggleAllFlashcards(true)">Revelar Todas</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Flashcard 1: Género Dramático -->
+                <div class="card-flash p-6 flex flex-col justify-between border-2 border-purple-300" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Representa episodios o conflictos de la vida humana mediante el diálogo de personajes, destinado a ser representado públicamente.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Género Dramático</div>
+                </div>
+
+                <!-- Flashcard 2: Drama -->
+                <div class="card-flash p-6 flex flex-col justify-between border-2 border-purple-300" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Palabra griega que significa "hacer", asociada a la idea de acción y utilizada para nombrar toda creación literaria teatral.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Drama</div>
+                </div>
+
+                <!-- Flashcard 3: Conflicto -->
+                <div class="card-flash p-6 flex flex-col justify-between border-2 border-purple-300" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Origen fundamental de una obra dramática, refiriéndose a las fuerzas contrapuestas que impulsan el desarrollo argumental.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Conflicto</div>
+                </div>
+
+                <!-- Flashcard 4: Dramaturgo -->
+                <div class="card-flash p-6 flex flex-col justify-between border-2 border-purple-300" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Artista que concibe y desarrolla un acontecimiento teatral dentro de un espacio y tiempo determinados.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Dramaturgo</div>
+                </div>
+
+                <!-- Flashcard 5: Acotaciones -->
+                <div class="card-flash p-6 flex flex-col justify-between border-2 border-purple-300" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Información para la representación teatral sobre la acción (decorados, iluminación, sonidos) y los personajes (vestuario, movimientos, gestos).</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Acotaciones</div>
+                </div>
+
+                <!-- Flashcard 6: Escenografía -->
+                <div class="card-flash p-6 flex flex-col justify-between border-2 border-purple-300" onclick="toggleReveal(this)">
+                    <div>
+                        <p class="text-gray-800 font-medium mb-2 concept">Elementos esenciales de la representación teatral que sitúan la historia en un tiempo y espacio concretos, incluyendo decorados, vestuario, iluminación y sonido.</p>
+                    </div>
+                    <div class="text-purple-600 font-bold text-xl revealed-text hidden mt-4">Escenografía</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Estructura de la Obra Dramática (Stepped Reveal) -->
+        <section id="estructura-obra" class="mb-12">
+            <h2 class="section-title">Estructura de la Obra Dramática</h2>
+            <div id="estructura-learning-container" class="bg-white p-6 rounded-xl shadow-md border border-purple-200" data-active-step="1" data-total-steps="6">
+                <!-- Step 1 -->
+                <div id="estructura-step-1" class="learning-step">
+                    <p class="text-gray-700 text-lg mb-4">¿Qué es la estructura de una obra dramática?</p>
+                </div>
+                <!-- Step 2 -->
+                <div id="estructura-step-2" class="learning-step">
+                    <p class="text-gray-700 mb-4">La estructura de una obra dramática se refiere a su **construcción organizada** para presentar y desarrollar un conflicto.</p>
+                    <p class="text-gray-700 text-lg mb-4">¿Cuáles son los puntos principales de esta estructura?</p>
+                </div>
+                <!-- Step 3 -->
+                <div id="estructura-step-3" class="learning-step">
+                    <p class="text-gray-700 mb-4">Los tres puntos principales son:</p>
+                    <ul class="list-disc list-inside text-lg text-gray-800 font-semibold mb-6 space-y-2">
+                        <li>Presentación del Conflicto</li>
+                        <li>Desarrollo de la Acción Dramática</li>
+                        <li>Desenlace de la Acción Dramática</li>
+                    </ul>
+                    <p class="text-gray-700 text-lg mb-4">¡Ahora exploremos cada uno en detalle!</p>
+                </div>
+                <!-- Step 4: Detalle de Presentación del Conflicto -->
+                <div id="estructura-step-4" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">1. Presentación del Conflicto</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">Es el origen de la obra, donde aparecen las fuerzas contrapuestas. Sin conflicto, no hay drama. Puede manifestarse explícitamente o estar implícito.</p>
+                        <h4 class="font-semibold text-gray-800 mt-3 mb-2">Etapas:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Exposición o situación del protagonista.</li>
+                            <li>Propósito del protagonista.</li>
+                            <li>Presentación del obstáculo o materia del conflicto.</li>
+                            <li>Choque de las dos fuerzas en pugna.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Step 5: Detalle de Desarrollo de la Acción Dramática -->
+                <div id="estructura-step-5" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">2. Desarrollo de la Acción Dramática</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p>Aquí el conflicto avanza hasta el punto de mayor tensión (el nudo). Los personajes intentan superar la fuerza opuesta, lo que da dimensión artística a la obra.</p>
+                    </div>
+                </div>
+                <!-- Step 6: Detalle de Desenlace de la Acción Dramática -->
+                <div id="estructura-step-6" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">3. Desenlace de la Acción Dramática</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p>Momento en que se resuelve el problema. Implica la eliminación del obstáculo o la desaparición del protagonista. La fuerza opuesta puede ser externa o interna.</p>
+                        <h4 class="font-semibold text-gray-800 mt-3 mb-2">Ejemplos de conflictos:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Hombre con el destino ("Edipo Rey")</li>
+                            <li>Instinto con el ambiente ("Hamlet")</li>
+                            <li>Entendimiento con el ambiente ("Madre Coraje")</li>
+                            <li>Libre albedrío con el ambiente ("Casa de Muñecas")</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flex justify-between gap-4 mt-6">
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStep('estructura')">Anterior</button>
+                    <button class="stepper-button" onclick="nextLearningStep('estructura')">Continuar</button>
+                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepper('estructura')">Reiniciar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Aspectos Formales y Composición (Stepped Reveal) -->
+        <section id="aspectos-formales" class="mb-12">
+            <h2 class="section-title">Aspectos Formales y Composición</h2>
+            <div id="aspectos-learning-container" class="bg-white p-6 rounded-xl shadow-md border border-purple-200" data-active-step="1" data-total-steps="7">
+                <!-- Step 1 -->
+                <div id="aspectos-step-1" class="learning-step">
+                    <p class="text-gray-700 text-lg mb-4">¿Qué son los aspectos formales y la composición de una obra dramática?</p>
+                </div>
+                <!-- Step 2 -->
+                <div id="aspectos-step-2" class="learning-step">
+                    <p class="text-gray-700 mb-4">Se refieren a cómo está construida la obra, incluyendo sus textos y los elementos para su representación.</p>
+                    <p class="text-gray-700 text-lg mb-4">¿Cuáles son los componentes clave?</p>
+                </div>
+                <!-- Step 3 -->
+                <div id="aspectos-step-3" class="learning-step">
+                    <p class="text-gray-700 mb-4">Los componentes clave son:</p>
+                    <ul class="list-disc list-inside text-lg text-gray-800 font-semibold mb-6 space-y-2">
+                        <li>Texto Principal</li>
+                        <li>Texto Secundario o Acotaciones</li>
+                        <li>La Representación Teatral</li>
+                        <li>Nivel o Categorías de los Personajes</li>
+                    </ul>
+                    <p class="text-gray-700 text-lg mb-4">¡Exploremos cada uno en detalle!</p>
+                </div>
+                <!-- Step 4: Detalle de Texto Principal -->
+                <div id="aspectos-step-4" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Texto Principal</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">Es el contenido, propiamente, de la obra que se presenta dividido en:</p>
+                        <ul class="list-disc list-inside space-y-1 mb-3">
+                            <li>**Actos:** Unidad temporal y narrativa, marcada por la subida y bajada del telón.</li>
+                            <li>**Cuadros:** Parte marcada por el cambio total o parcial del decorado.</li>
+                            <li>**Escenas:** Parte determinada por la entrada o salida de los actores.</li>
+                        </ul>
+                        <h4 class="font-semibold text-gray-800 mt-3 mb-2">Formas de Expresión:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>**Diálogo:** Conversación entre dos personajes.</li>
+                            <li>**Monólogo (Soliloquio):** Un solo personaje hablando.</li>
+                            <li>**Aparte:** Personajes dicen algo que los demás fingen no escuchar.</li>
+                            <li>**Off:** Cuando se habla fuera de escena.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Step 5: Detalle de Texto Secundario o Acotaciones -->
+                <div id="aspectos-step-5" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Texto Secundario o Acotaciones</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">Aporta información crucial para la representación teatral:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>**Sobre la acción:** Datos del lugar, época, mobiliario, iluminación (hora del día, espacio), sonidos (efectos).</li>
+                            <li>**Sobre los personajes:** Vestuario, movimientos, gestos, tono de voz, intencionalidad expresiva.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Step 6: Detalle de La Representación Teatral -->
+                <div id="aspectos-step-6" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">La Representación Teatral</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">El fin primordial de un texto dramático es su representación. Los **actores** encarnan a los personajes, y el **director** los organiza y transforma el texto en espectáculo.</p>
+                        <p class="mb-2">La **escenografía** es esencial, situando la historia en tiempo y espacio.</p>
+                        <h4 class="font-semibold text-gray-800 mt-3 mb-2">Campos de la Escenografía:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>**Decorados:** Elementos para ambientar el escenario.</li>
+                            <li>**Vestuario:** Prendas y ropas.</li>
+                            <li>**Iluminación:** Luces para efectos (día, noche, tormentas).</li>
+                            <li>**Sonido:** Música y efectos sonoros (ruidos).</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Step 7: Detalle de Nivel o Categorías de los Personajes -->
+                <div id="aspectos-step-7" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Nivel o Categorías de los Personajes</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>**Principales:** Recae el peso de la acción.
+                                <ul class="list-circle list-inside ml-5">
+                                    <li>**Protagonista:** Actúa según la tesis del autor.</li>
+                                    <li>**Antagonista:** Actúa de forma contraria al protagonista.</li>
+                                </ul>
+                            </li>
+                            <li>**Secundarios:** Ayudan a los principales.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flex justify-between gap-4 mt-6">
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStep('aspectos')">Anterior</button>
+                    <button class="stepper-button" onclick="nextLearningStep('aspectos')">Continuar</button>
+                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepper('aspectos')">Reiniciar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Comparación: Tragedia vs. Comedia (Progressive Reveal Table - maintained) -->
+        <section id="comparacion" class="mb-12">
+            <h2 class="section-title">Comparación: Tragedia vs. Comedia</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md bg-white p-4">
+                <table class="min-w-full border-collapse">
+                    <thead>
+                        <tr class="bg-purple-600 text-white">
+                            <th class="py-3 px-4 text-left border-b border-purple-700">Característica</th>
+                            <th class="py-3 px-4 text-left border-b border-purple-700 hidden-col-comp">Tragedia</th>
+                            <th class="py-3 px-4 text-left border-b border-purple-700 hidden-col-comp">Comedia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-table-body">
+                        <!-- Rows will be progressively revealed by JavaScript -->
+                        <tr class="hover:bg-gray-50 border-b border-gray-200" data-row-index="0">
+                            <td class="py-3 px-4 font-semibold">Origen</td>
+                            <td class="py-3 px-4 hidden-col-comp">Antigüedad (Grecia), siglo V a.C.</td>
+                            <td class="py-3 px-4 hidden-col-comp">Grecia, mitad del siglo V a.C.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200" data-row-index="1">
+                            <td class="py-3 px-4 font-semibold">Desenlace</td>
+                            <td class="py-3 px-4 hidden-col-comp">Fatal, triste o con la muerte del protagonista.</td>
+                            <td class="py-3 px-4 hidden-col-comp">Feliz y optimista (ascenso en el estado de los personajes).</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200" data-row-index="2">
+                            <td class="py-3 px-4 font-semibold">Conflicto</td>
+                            <td class="py-3 px-4 hidden-col-comp">Ruptura del orden del mundo, destino inexorable.</td>
+                            <td class="py-3 px-4 hidden-col-comp">Aspectos risibles de la vida cotidiana.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200" data-row-index="3">
+                            <td class="py-3 px-4 font-semibold">Personajes</td>
+                            <td class="py-3 px-4 hidden-col-comp">Sufren, piedad; luego reconocimiento del mal.</td>
+                            <td class="py-3 px-4 hidden-col-comp">De condición inferior, "vulgares", típicos e identificables.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200" data-row-index="4">
+                            <td class="py-3 px-4 font-semibold">Finalidad</td>
+                            <td class="py-3 px-4 hidden-col-comp">Suscitar compasión y temor, purgar emociones.</td>
+                            <td class="py-3 px-4 hidden-col-comp">Provocar la risa del espectador.</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 border-b border-gray-200" data-row-index="5">
+                            <td class="py-3 px-4 font-semibold">Autores destacados</td>
+                            <td class="py-3 px-4 hidden-col-comp">Esquilo, Sófocles, Eurípides.</td>
+                            <td class="py-3 px-4 hidden-col-comp">Aristófanes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="flex justify-center mt-6 gap-4">
+                    <button class="stepper-button" id="reveal-next-comparison" onclick="revealNextComparisonRow()">Mostrar Siguiente Aspecto</button>
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" id="reset-comparison" onclick="resetComparisonTable()">Reiniciar Comparación</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Otras Formas Dramáticas (Stepped Reveal) -->
+        <section id="otras-formas" class="mb-12">
+            <h2 class="section-title">Otras Formas Dramáticas</h2>
+            <div id="otras-formas-learning-container" class="bg-white p-6 rounded-xl shadow-md border border-purple-200" data-active-step="1" data-total-steps="7">
+                <!-- Step 1 -->
+                <div id="otras-formas-step-1" class="learning-step">
+                    <p class="text-gray-700 text-lg mb-4">¿Cómo se divide el género dramático?</p>
+                </div>
+                <!-- Step 2 -->
+                <div id="otras-formas-step-2" class="learning-step">
+                    <p class="text-gray-700 mb-4">A través del tiempo, se han distinguido las llamadas **formas mayores** y **formas menores**, obedeciendo a criterios de época, temática o profundidad.</p>
+                    <p class="text-gray-700 text-lg mb-4">¿Cuáles son estas formas?</p>
+                </div>
+                <!-- Step 3 -->
+                <div id="otras-formas-step-3" class="learning-step">
+                    <p class="text-gray-700 mb-4">Las **formas mayores** incluyen: Tragedia, Comedia, Drama, Tragicomedia y Auto Sacramental.</p>
+                    <p class="text-gray-700 mb-4">Las **formas menores** incluyen: Entremés, Paso, Monólogo y Farsa, entre otros.</p>
+                    <p class="text-gray-700 text-lg mb-4">¡Profundicemos en algunas de ellas!</p>
+                </div>
+                <!-- Step 4: Detalle de El Drama -->
+                <div id="otras-formas-step-4" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">El Drama</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">No tiene un carácter definido; combina indistintamente aspectos trágicos y cómicos. Pretende representar la vida tal cual es, razón por la cual tiende a tratar los asuntos de forma menos rígida que la tragedia y la comedia.</p>
+                        <p class="text-gray-700 mb-2">El término drama viene de la palabra griega que significa "hacer", y por esa razón se asocia normalmente a la idea de acción. En términos generales se entiende por drama una historia que narra los acontecimientos vitales de una serie de personajes.</p>
+                        <p class="text-gray-700">Los primeros datos documentados de literatura dramática son del siglo VI a. C.; la primera obra crítica sobre la literatura y el teatro es la Poética (330 a. C.) de Aristóteles. En cuanto a los contenidos de los dramas, Esquilo comenzará a representar historias de héroes, en tanto que el teatro que lo precedió, tan sólo se ocupaba de las figuras de los dioses.</p>
+                    </div>
+                </div>
+                <!-- Step 5: Detalle de Tragicomedia -->
+                <div id="otras-formas-step-5" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Tragicomedia</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">Obra que participa de los géneros trágico y cómico. Tal es el caso de Anfitrión, de Plauto, primer autor en utilizar esta denominación.</p>
+                        <p class="text-gray-700">Su desarrollo, a partir del Renacimiento, alcanzó gran relieve en los siglos XVIII y XIX; como el melodrama y el drama romántico. El género se caracteriza por la indiferenciación de la clase social a la que pertenecen los personajes -aristocracia y pueblo- y por la utilización de distintos lenguajes.</p>
+                    </div>
+                </div>
+                <!-- Step 6: Detalle de Auto Sacramental -->
+                <div id="otras-formas-step-6" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Auto Sacramental</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">Son representaciones de episodios bíblicos, misterios de la religión o conflictos de carácter moral y teológico. Inicialmente representados en los templos o pórticos de las iglesias; el más antiguo es el denominado AUTO DE LOS REYES MAGOS.</p>
+                        <p class="text-gray-700">Después del Concilio de Trento, numerosos autores, especialmente del Siglo de Oro español, escribieron autos destinados a consolidar el ideario de la Contrarreforma, se destacan: Calderón de la Barca, Tirso de Molina, Lope de Vega, etcétera.</p>
+                    </div>
+                </div>
+                <!-- Step 7: Detalle de Formas Menores -->
+                <div id="otras-formas-step-7" class="learning-step">
+                    <h3 class="font-bold text-xl text-purple-700 mb-3">Formas Menores</h3>
+                    <div class="p-4 text-gray-700 bg-gray-50 rounded-lg">
+                        <p class="mb-2">Las formas menores del género dramático incluyen: Entremés, Monólogo, Farsa, Vodevil, Zarzuela, Sainete, Loa.</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between gap-4 mt-6">
+                    <button class="stepper-button bg-gray-500 hover:bg-gray-600" onclick="prevLearningStep('otras-formas')">Anterior</button>
+                    <button class="stepper-button" onclick="nextLearningStep('otras-formas')">Continuar</button>
+                    <button class="stepper-button bg-red-500 hover:bg-red-600" onclick="resetLearningStepper('otras-formas')">Reiniciar</button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 mt-12 pt-6 border-t border-gray-200">
+            <p>&copy; 2025 Género Dramático. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Flashcard Logic ---
+        /**
+         * Toggles the visibility of the revealed text in a flashcard.
+         * @param {HTMLElement} cardElement - The flashcard element clicked.
+         */
+        function toggleReveal(cardElement) {
+            const revealedText = cardElement.querySelector('.revealed-text');
+            if (revealedText) {
+                revealedText.classList.toggle('hidden');
+            }
+        }
+
+        /**
+         * Toggles the visibility of all flashcard revealed texts.
+         * @param {boolean} show - If true, reveals all; if false, hides all.
+         */
+        function toggleAllFlashcards(show) {
+            document.querySelectorAll('.card-flash .revealed-text').forEach(revealedText => {
+                if (show) {
+                    revealedText.classList.remove('hidden');
+                } else {
+                    revealedText.classList.add('hidden');
+                }
+            });
+        }
+
+
+        // --- Generic Stepper Logic for Learning Sections ---
+        // Stores the current step and total steps for each learning container
+        const learningStepState = {};
+
+        /**
+         * Initializes a learning stepper container.
+         * @param {string} containerId - The ID of the learning container.
+         */
+        function initializeLearningStepper(containerId) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                const totalSteps = parseInt(container.dataset.totalSteps);
+                learningStepState[containerId] = {
+                    currentStep: 1,
+                    totalSteps: totalSteps
+                };
+                showLearningStep(containerId, 1);
+            }
+        }
+
+        /**
+         * Shows a specific step within a learning container.
+         * @param {string} containerId - The ID of the learning container.
+         * @param {number} stepNum - The step number to show.
+         */
+        function showLearningStep(containerId, stepNum) {
+            const container = document.getElementById(containerId);
+            if (!container || !learningStepState[containerId]) return;
+
+            // Hide all steps in this container
+            container.querySelectorAll('.learning-step').forEach(stepDiv => {
+                stepDiv.classList.remove('active');
+            });
+
+            // Show the target step
+            const targetStepDiv = document.getElementById(`${containerId.split('-learning-container')[0]}-step-${stepNum}`);
+            if (targetStepDiv) {
+                targetStepDiv.classList.add('active');
+                learningStepState[containerId].currentStep = stepNum;
+            }
+
+            // Update button states
+            const prevButton = container.querySelector('.stepper-button:nth-of-type(1)');
+            const nextButton = container.querySelector('.stepper-button:nth-of-type(2)');
+
+            if (prevButton) {
+                if (learningStepState[containerId].currentStep === 1) {
+                    prevButton.disabled = true;
+                    prevButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+                    prevButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                } else {
+                    prevButton.disabled = false;
+                    prevButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    prevButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                }
+            }
+
+            if (nextButton) {
+                if (learningStepState[containerId].currentStep === learningStepState[containerId].totalSteps) {
+                    nextButton.disabled = true;
+                    nextButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+                    nextButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                } else {
+                    nextButton.disabled = false;
+                    nextButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    nextButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                }
+            }
+        }
+
+        /**
+         * Advances to the next step in a learning container.
+         * @param {string} containerId - The ID of the learning container.
+         */
+        function nextLearningStep(containerId) {
+            if (learningStepState[containerId].currentStep < learningStepState[containerId].totalSteps) {
+                showLearningStep(containerId, learningStepState[containerId].currentStep + 1);
+            }
+        }
+
+        /**
+         * Goes back to the previous step in a learning container.
+         * @param {string} containerId - The ID of the learning container.
+         */
+        function prevLearningStep(containerId) {
+            if (learningStepState[containerId].currentStep > 1) {
+                showLearningStep(containerId, learningStepState[containerId].currentStep - 1);
+            }
+        }
+
+        /**
+         * Resets a learning stepper container to its first step.
+         * @param {string} containerId - The ID of the learning container.
+         */
+        function resetLearningStepper(containerId) {
+            showLearningStep(containerId, 1);
+        }
+
+        // --- Progressive Reveal for Comparison Table ---
+        let currentComparisonRow = 0;
+        const comparisonRows = document.querySelectorAll('#comparison-table-body tr');
+
+        function revealNextComparisonRow() {
+            if (currentComparisonRow < comparisonRows.length) {
+                const row = comparisonRows[currentComparisonRow];
+                // Show the 'Tragedia' and 'Comedia' cells for the current row
+                row.querySelectorAll('.hidden-col-comp').forEach(cell => {
+                    cell.classList.remove('hidden-col-comp');
+                });
+                currentComparisonRow++;
+            }
+            if (currentComparisonRow === comparisonRows.length) {
+                document.getElementById('reveal-next-comparison').disabled = true;
+                document.getElementById('reveal-next-comparison').classList.add('bg-gray-400', 'cursor-not-allowed');
+                document.getElementById('reveal-next-comparison').classList.remove('bg-purple-600', 'hover:bg-purple-700');
+            }
+        }
+
+        function resetComparisonTable() {
+            currentComparisonRow = 0;
+            // Hide all content cells in the table body
+            document.querySelectorAll('#comparison-table-body .py-3:not(.font-semibold)').forEach(cell => {
+                cell.classList.add('hidden-col-comp');
+            });
+
+            document.getElementById('reveal-next-comparison').disabled = false;
+            document.getElementById('reveal-next-comparison').classList.remove('bg-gray-400', 'cursor-not-allowed');
+            document.getElementById('reveal-next-comparison').classList.add('bg-purple-600', 'hover:bg-purple-700');
+        }
+
+        // Initialize all steppers and table on window load
+        window.onload = function() {
+            initializeLearningStepper('estructura-learning-container');
+            initializeLearningStepper('aspectos-learning-container');
+            initializeLearningStepper('otras-formas-learning-container');
+            resetComparisonTable(); // Ensure comparison table is hidden on load
+        };
+    </script>
+</body>
+</html>
